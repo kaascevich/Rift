@@ -27,9 +27,10 @@ final class ProtocolsSpec: QuickSpec {
             }
         }
         
-        describe("the PartialEq protocol") {
+        describe("the PartialEq and Eq protocols") {
             it("is a typealias for Equatable") {
                 expect((any Equatable).self == (any PartialEq).self).to(beTrue())
+                expect((any Equatable).self == (any Eq).self).to(beTrue())
             }
         }
         
