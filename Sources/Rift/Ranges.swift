@@ -16,8 +16,8 @@
 
 prefix operator ..
 postfix operator ..
-infix operator ..
-infix operator ..=
+infix operator ..: RangeFormationPrecedence
+infix operator ..=: RangeFormationPrecedence
 
 public extension Comparable {
     /// Returns a partial range up to, and including, its upper bound.
