@@ -52,7 +52,7 @@ extension bool: Not { }
 ///
 /// Adding `PartialEq` conformance to your custom types means that you can use
 /// more convenient APIs when searching for particular instances in a
-/// collection. `PartialEq` is also the base protocol for the `Hashable` and
+/// collection. `PartialEq` is also the base protocol for the `Hash` and
 /// `PartialOrd` protocols, which allow more uses of your custom type, such as
 /// constructing sets or sorting the elements of a collection.
 ///
@@ -215,9 +215,9 @@ public typealias PartialEq = Equatable
 ///
 /// Adding `Eq` conformance to your custom types means that you can use more
 /// convenient APIs when searching for particular instances in a collection.
-/// `Eq` is also the base protocol for the `Hashable` and `PartialOrd`
-/// protocols, which allow more uses of your custom type, such as constructing
-/// sets or sorting the elements of a collection.
+/// `Eq` is also the base protocol for the `Hash` and `PartialOrd` protocols,
+/// which allow more uses of your custom type, such as constructing sets or
+/// sorting the elements of a collection.
 ///
 /// You can rely on automatic synthesis of the `Eq` protocol's requirements
 /// for a custom type when you declare `Eq` conformance in the type's original
@@ -484,3 +484,94 @@ public typealias Eq = Equatable
 ///   equal to any normal floating-point value. Exceptional values need not
 ///   take part in the strict total order.
 public typealias PartialOrd = Comparable
+
+/// A type that can be hashed into a `Hasher` to produce an integer hash value.
+///
+/// You can use any type that conforms to the `Hash` protocol in a set or as
+/// a dictionary key. Many types in the standard library conform to `Hash`:
+/// Strings, integers, floating-point and Boolean values, and even sets are
+/// hashable by default. Some other types, such as optionals, arrays and ranges
+/// automatically become hashable when their type arguments implement the same.
+///
+/// Your own custom types can be hashable as well. When you define an
+/// enumeration without associated values, it gains `Hash` conformance
+/// automatically, and you can add `Hash` conformance to your other custom
+/// types by implementing the `hash(into:)` method. For structs whose stored
+/// properties are all `Hash`, and for enum types that have all-`Hash`
+/// associated values, the compiler is able to provide an implementation of
+/// `hash(into:)` automatically.
+///
+/// Hashing a value means feeding its essential components into a hash function,
+/// represented by the `Hasher` type. Essential components are those that
+/// contribute to the type's implementation of `Eq`. Two instances that are
+/// equal must feed the same values to `Hasher` in `hash(into:)`, in the same
+/// order.
+///
+/// # Conforming to the Hashable Protocol
+///
+/// To use your own custom type in a set or as the key type of a dictionary,
+/// add `Hash` conformance to your type. The `Hash` protocol inherits from
+/// the `Eq` protocol, so you must also satisfy that protocol's requirements.
+///
+/// The compiler automatically synthesizes your custom type's `Hash` and
+/// requirements when you declare `Hash` conformance in the type's original
+/// declaration and your type meets these criteria:
+///
+/// - For a `struct`, all its stored properties must conform to `Hash`.
+/// - For an `enum`, all its associated values must conform to `Hash`. (An
+///   `enum` without associated values has `Hash` conformance even without
+///   the declaration.)
+///
+/// To customize your type's `Hash` conformance, to adopt `Hash` in a type
+/// that doesn't meet the criteria listed above, or to extend an existing
+/// type to conform to `Hash`, implement the `hash(into:)` method in your
+/// custom type.
+///
+/// In your `hash(into:)` implementation, call `combine(_:)` on the provided
+/// `Hasher` instance with the essential components of your type. To ensure
+/// that your type meets the semantic requirements of the `Hash` and `Eq`
+/// protocols, it's a good idea to also customize your type's `Eq`
+/// conformance to match.
+///
+/// As an example, consider a `GridPoint` type that describes a location in a
+/// grid of buttons. Here's the initial declaration of the `GridPoint` type:
+///
+///     /// A point in an x-y coordinate system.
+///     struct GridPoint {
+///         var x: Int
+///         var y: Int
+///     }
+///
+/// You'd like to create a set of the grid points where a user has already
+/// tapped. Because the `GridPoint` type is not hashable yet, it can't be used
+/// in a set. To add `Hash` conformance, provide an `==` operator function
+/// and implement the `hash(into:)` method.
+///
+///     extension GridPoint: Hash {
+///         static func == (lhs: GridPoint, rhs: GridPoint) -> Bool {
+///             return lhs.x == rhs.x && lhs.y == rhs.y
+///         }
+///
+///         func hash(into hasher: inout Hasher) {
+///             hasher.combine(x)
+///             hasher.combine(y)
+///         }
+///     }
+///
+/// The `hash(into:)` method in this example feeds the grid point's `x` and `y`
+/// properties into the provided hasher. These properties are the same ones
+/// used to test for equality in the `==` operator function.
+///
+/// Now that `GridPoint` conforms to the `Hash` protocol, you can create a
+/// set of previously tapped grid points.
+///
+///     var tappedPoints: Set = [GridPoint(x: 2, y: 3), GridPoint(x: 4, y: 1)]
+///     let nextTap = GridPoint(x: 0, y: 1)
+///     if tappedPoints.contains(nextTap) {
+///         print("Already tapped at (\(nextTap.x), \(nextTap.y)).")
+///     } else {
+///         tappedPoints.insert(nextTap)
+///         print("New tap detected at (\(nextTap.x), \(nextTap.y)).")
+///     }
+///     // Prints "New tap detected at (0, 1).")
+public typealias Hash = Hashable

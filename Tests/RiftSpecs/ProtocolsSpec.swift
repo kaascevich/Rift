@@ -39,5 +39,11 @@ final class ProtocolsSpec: QuickSpec {
                 expect((any Comparable).self == (any PartialOrd).self).to(beTrue())
             }
         }
+        
+        describe("the Hash protocol") {
+            it("is a typealias for Hashable") {
+                expect((any Hashable).self == (any Hash).self).to(beTrue())
+            }
+        }
     }
 }
