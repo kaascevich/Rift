@@ -6,6 +6,7 @@ disabled_rules:
     - large_tuple # pretty much unavoidable when working with operators
     - line_length
     - todo # annoying
+    - type_name # Rust primitives are lowercase
     - vertical_parameter_alignment_on_call # doesn't play well with trailing closures
     
 opt_in_rules:
