@@ -21,9 +21,16 @@ import Nimble
 final class RangesSpec: QuickSpec {
     override class func spec() {
         describe("the prefix .. operator") {
+            it("has the same meaning as the prefix ..< operator") {
+                for i in 1...100 {
+                    expect((..26).contains(i)).to(equal((..<26).contains(i)))
+                }
+            }
+        }
+        describe("the prefix ..= operator") {
             it("has the same meaning as the prefix ... operator") {
                 for i in 1...100 {
-                    expect((..26).contains(i)).to(equal((...26).contains(i)))
+                    expect((..=26).contains(i)).to(equal((...26).contains(i)))
                 }
             }
         }

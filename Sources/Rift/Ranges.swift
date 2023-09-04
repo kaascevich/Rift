@@ -15,20 +15,56 @@
 // with this package. If not, see https://www.gnu.org/licenses/.
 
 prefix operator ..
+prefix operator ..=
 postfix operator ..
 infix operator ..: RangeFormationPrecedence
 infix operator ..=: RangeFormationPrecedence
 
 public extension Comparable {
-    /// Returns a partial range up to, and including, its upper bound.
+    /// Returns a partial range up to, but not including, its upper bound.
     ///
     /// Use the prefix closed range operator (prefix `..`) to create a
+    /// partial range of any type that conforms to the `Comparable`
+    /// protocol. This example creates a `PartialRangeUp<Double>`
+    /// instance that includes any value less than `5.0`.
+    ///
+    /// ```swift
+    /// let throughFive = ..5.0
+    ///
+    /// throughFive.contains(4.0) // true
+    /// throughFive.contains(5.0) // false
+    /// throughFive.contains(6.0) // false
+    /// ```
+    ///
+    /// You can use this type of partial range of a collection's indices
+    /// to represent the range from the start of the collection up to,
+    /// but not including, the partial range's upper bound.
+    ///
+    /// ```swift
+    /// let numbers = [10, 20, 30, 40, 50, 60, 70]
+    /// print(numbers[..3])
+    /// // Prints "[10, 20, 30]"
+    /// ```
+    ///
+    /// - Precondition: `maximum` must compare equal to itself (i.e.
+    ///   cannot be `NaN`).
+    ///
+    /// - Parameter maximum: The upper bound for the range.
+    ///
+    /// - Returns: A partial range up to, and including, `maximum`.
+    static prefix func .. (maximum: Self) -> PartialRangeUpTo<Self> {
+        ..<maximum
+    }
+    
+    /// Returns a partial range up to, and including, its upper bound.
+    ///
+    /// Use the prefix closed range operator (prefix `..=`) to create a
     /// partial range of any type that conforms to the `Comparable`
     /// protocol. This example creates a `PartialRangeThrough<Double>`
     /// instance that includes any value less than or equal to `5.0`.
     ///
     /// ```swift
-    /// let throughFive = ..5.0
+    /// let throughFive = ..=5.0
     ///
     /// throughFive.contains(4.0) // true
     /// throughFive.contains(5.0) // true
@@ -41,7 +77,7 @@ public extension Comparable {
     ///
     /// ```swift
     /// let numbers = [10, 20, 30, 40, 50, 60, 70]
-    /// print(numbers[..3])
+    /// print(numbers[..=3])
     /// // Prints "[10, 20, 30, 40]"
     /// ```
     ///
@@ -51,7 +87,7 @@ public extension Comparable {
     /// - Parameter maximum: The upper bound for the range.
     ///
     /// - Returns: A partial range up to, and including, `maximum`.
-    static prefix func .. (maximum: Self) -> PartialRangeThrough<Self> {
+    static prefix func ..= (maximum: Self) -> PartialRangeThrough<Self> {
         ...maximum
     }
     
