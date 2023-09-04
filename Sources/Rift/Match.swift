@@ -67,14 +67,14 @@ public func => <T, Value>(
     .init(pattern: pattern, value: value)
 }
 
-public func => <T: Equatable, Value>(
+public func => <T: PartialEq, Value>(
     pattern: @autoclosure @escaping () -> T,
     value: @escaping () -> Value
 ) -> MatchArm<T, Value> {
     .init(pattern: { pattern() == $0 }, value: value)
 }
 
-public func => <T: Equatable, Value>(
+public func => <T: PartialEq, Value>(
     pattern: @autoclosure @escaping () -> T,
     value: @autoclosure @escaping () -> Value
 ) -> MatchArm<T, Value> {

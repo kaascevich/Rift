@@ -20,11 +20,11 @@ postfix operator ..
 infix operator ..: RangeFormationPrecedence
 infix operator ..=: RangeFormationPrecedence
 
-public extension Comparable {
+public extension PartialOrd {
     /// Returns a partial range up to, but not including, its upper bound.
     ///
     /// Use the prefix closed range operator (prefix `..`) to create a
-    /// partial range of any type that conforms to the `Comparable`
+    /// partial range of any type that conforms to the `PartialOrd`
     /// protocol. This example creates a `PartialRangeUp<Double>`
     /// instance that includes any value less than `5.0`.
     ///
@@ -59,7 +59,7 @@ public extension Comparable {
     /// Returns a partial range up to, and including, its upper bound.
     ///
     /// Use the prefix closed range operator (prefix `..=`) to create a
-    /// partial range of any type that conforms to the `Comparable`
+    /// partial range of any type that conforms to the `PartialOrd`
     /// protocol. This example creates a `PartialRangeThrough<Double>`
     /// instance that includes any value less than or equal to `5.0`.
     ///
@@ -94,7 +94,7 @@ public extension Comparable {
     /// Returns a partial range extending upward from a lower bound.
     ///
     /// Use the postfix range operator (postfix `..`) to create a partial
-    /// range of any type that conforms to the `Comparable` protocol.
+    /// range of any type that conforms to the `PartialOrd` protocol.
     /// This example creates a `PartialRangeFrom<Double>` instance that
     /// includes any value greater than or equal to `5.0`.
     ///
@@ -130,7 +130,7 @@ public extension Comparable {
     /// its upper bound.
     ///
     /// Use the half-open range operator (`..`) to create a range of any
-    /// type that conforms to the `Comparable` protocol. This example
+    /// type that conforms to the `PartialOrd` protocol. This example
     /// creates a `Range<Double>` from zero up to, but not including,
     /// `5.0`.
     ///
@@ -155,7 +155,7 @@ public extension Comparable {
     /// Returns a closed range that contains both of its bounds.
     ///
     /// Use the closed range operator (`..=`) to create a closed range
-    /// of any type that conforms to the `Comparable` protocol. This
+    /// of any type that conforms to the `PartialOrd` protocol. This
     /// example creates a `ClosedRange<Character>` from `"a"` up to,
     /// and including, `"z"`.
     ///
