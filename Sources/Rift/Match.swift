@@ -38,10 +38,10 @@ precedencegroup MatchArmPrecedence {
 infix operator =>: MatchArmPrecedence
 
 public struct MatchArm<T, Value> {
-    let pattern: (T) -> Bool
+    let pattern: (T) -> bool
     let value: () -> Value
     
-    internal init(pattern: @escaping (T) -> Bool, value: @escaping () -> Value) {
+    internal init(pattern: @escaping (T) -> bool, value: @escaping () -> Value) {
         self.pattern = pattern
         self.value = value
     }
@@ -54,14 +54,14 @@ public struct MatchArm<T, Value> {
 }
 
 public func => <T, Value>(
-    pattern: @escaping (T) -> Bool,
+    pattern: @escaping (T) -> bool,
     value: @escaping () -> Value
 ) -> MatchArm<T, Value> {
     .init(pattern: pattern, value: value)
 }
 
 public func => <T, Value>(
-    pattern: @escaping (T) -> Bool,
+    pattern: @escaping (T) -> bool,
     value: @autoclosure @escaping () -> Value
 ) -> MatchArm<T, Value> {
     .init(pattern: pattern, value: value)

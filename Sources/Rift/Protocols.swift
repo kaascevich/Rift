@@ -16,10 +16,10 @@
 
 /// A type that can be negated with the prefix `!` operator.
 public protocol Not {
-    static prefix func ! (value: Self) -> Bool
+    static prefix func ! (value: Self) -> bool
 }
 
-extension Bool: Not { }
+extension bool: Not { }
 
 /// A type that can be compared for value equality.
 ///
@@ -98,7 +98,7 @@ extension Bool: Not { }
 ///
 /// ```swift
 /// extension StreetAddress: PartialEq {
-///     static func == (lhs: StreetAddress, rhs: StreetAddress) -> Bool {
+///     static func == (lhs: StreetAddress, rhs: StreetAddress) -> bool {
 ///         return
 ///             lhs.number == rhs.number &&
 ///             lhs.street == rhs.street &&
@@ -152,12 +152,12 @@ extension Bool: Not { }
 ///
 /// ```swift
 /// class IntegerRef: PartialEq {
-///     let value: Int
-///     init(_ value: Int) {
+///     let value: isize
+///     init(_ value: isize) {
 ///         self.value = value
 ///     }
 ///
-///     static func == (lhs: IntegerRef, rhs: IntegerRef) -> Bool {
+///     static func == (lhs: IntegerRef, rhs: IntegerRef) -> bool {
 ///         return lhs.value == rhs.value
 ///     }
 /// }
@@ -254,9 +254,9 @@ public typealias PartialEq = Equatable
 ///
 /// ```swift
 /// struct Date {
-///     let year: Int
-///     let month: Int
-///     let day: Int
+///     let year: isize
+///     let month: isize
+///     let day: isize
 /// }
 /// ```
 ///
@@ -265,7 +265,7 @@ public typealias PartialEq = Equatable
 ///
 /// ```swift
 /// extension Date: PartialOrd {
-///     static func < (lhs: Date, rhs: Date) -> Bool {
+///     static func < (lhs: Date, rhs: Date) -> bool {
 ///         if lhs.year != rhs.year {
 ///             return lhs.year < rhs.year
 ///         } else if lhs.month != rhs.month {
@@ -285,7 +285,7 @@ public typealias PartialEq = Equatable
 /// the `PartialEq` protocol.
 ///
 /// ```swift
-///     static func == (lhs: Date, rhs: Date) -> Bool {
+///     static func == (lhs: Date, rhs: Date) -> bool {
 ///         return lhs.year == rhs.year && lhs.month == rhs.month
 ///             && lhs.day == rhs.day
 ///     }
